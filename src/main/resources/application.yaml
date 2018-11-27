@@ -1,0 +1,102 @@
+logging:
+  config: classpath:logback.xml
+error:
+  path: /gateway/error
+server:
+  port: 8040
+  tomcat:
+    # Minimum number of worker threads.
+    min-spare-threads: 100
+    # Maximum number of worker threads.
+    max-threads: 1024
+spring:
+  application:
+    name: citylife-api-gatway-zuul
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+    multipart:
+      # 启用http上传处理
+      enabled: true
+      # 设置单个文件的最大长度
+      max-file-size: 10MB
+      # 设置最大的请求文件的大小
+      max-request-size: 64MB
+      # 当上传文件达到1MB的时候进行磁盘写入
+      file-size-threshold: 1MB
+  # sleuth tracing数据汇聚到zipkin server
+  zipkin:
+    enabled: true
+    sender:
+      type: web
+    base-url: http://172.40.2.127:9411
+  sleuth:
+    sampler:
+      probability: 1.0
+  # hystrix数据汇聚到kafka
+  cloud:
+    stream:
+      kafka:
+        binder:
+          # Kafka的服务端列表
+          brokers: 172.40.2.124:9092,172.40.2.125:9092
+          # Kafka服务端连接的ZooKeeper节点列表
+          zkNodes: 172.40.2.124:2181,172.40.2.125:2181
+  httpclientfactories:
+    apache:
+      enabled: false
+    ok:
+      enabled: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://172.40.2.115:8761/eureka,http://172.40.2.116:8761/eureka
+  instance:
+    instanceId: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+    statusPageUrlPath: /swagger-ui.html
+    health-check-url-path: /actuator/health
+    #Eureka客户端向服务端发送心跳的时间间隔，单位为秒
+    lease-renewal-interval-in-seconds: 30
+    #Eureka服务端在收到最后一次心跳之后等待的过期时间上限，单位为秒。
+    #超过该时间没有收到心跳，则服务端会将该服务实例从服务清单中剔除，从而禁止服务调用请求被发送到该实例上
+    lease-expiration-duration-in-seconds: 90
+    prefer-ip-address: true
+# Zuul
+zuul:
+  sensitive-headers: Access-Control-Allow-Origin
+  ignored-headers: Access-Control-Allow-Origin,H-APP-Id,Token,APPToken
+  # 最大semaphore并发
+  semaphore:
+    max-semaphores: 300
+  # 禁用filter
+  DebugFilter:
+    pre:
+      disable: true
+  FormBodyWrapperFilter:
+    pre:
+      disable: true
+  SimpleHostRoutingFilter:
+    route:
+      disable: true
+# Ribbon hystrix熔断时间24s
+ribbon:
+  ReadTimeout: 10000 #10s
+  ConnectTimeout: 2000 #2s
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+#Spring Boot Admin Client
+management:
+  security:
+    enabled: false
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS

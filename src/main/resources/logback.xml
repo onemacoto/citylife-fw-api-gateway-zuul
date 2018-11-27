@@ -1,0 +1,34 @@
+<configuration>
+    <!-- 日志目录 -->
+    <property name="LOG_DIR" value="C:/citylife/logs" />
+    <!-- 日志文件名 -->
+    <property name="LOG_NAME" value="gateway-logback.log" />
+    <!-- 读取yml文件中spring.application.name节点定义的微服务名 并保存为本xml的一个变量，变量名为applicationName -->
+    <springProperty scope="context" name="applicationName" source="spring.application.name" defaultValue="undefined_appName" />
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <immediateFlush>true</immediateFlush>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>info</level>
+        </filter>
+        <file>${LOG_DIR}/${LOG_NAME}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/${LOG_NAME}.%d{yyyy-MM-dd}</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeContext>true</includeContext>
+            <includeCallerData>true</includeCallerData>
+            <customFields>{"applicationName":"${applicationName}"}</customFields>
+            <fieldNames class="net.logstash.logback.fieldnames.ShortenedFieldNames" />
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>
