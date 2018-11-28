@@ -8,11 +8,10 @@
 	<name>${project.artifactId}</name>
 	<description>${project.artifactId} for ${project.groupId}</description>
 	<packaging>jar</packaging>
-	<version>${citylife-fw-api-gateway-zuul.version}</version>
 
 	<parent>
 		<groupId>com.citylife</groupId>
-		<artifactId>citylife-fw-plateform-parent</artifactId>
+		<artifactId>citylife-fw-starter-plateform</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath />
 	</parent>
@@ -22,7 +21,6 @@
 		<logstash-logback-encoder.version>5.2</logstash-logback-encoder.version>
 		<fastjson.version>1.2.51</fastjson.version>
 		<brave-instrumentation-okhttp3.version>5.4.4</brave-instrumentation-okhttp3.version>
-		<citylife-fw-api-gateway-zuul.version>0.0.1-SNAPSHOT</citylife-fw-api-gateway-zuul.version>
 	</properties>
 
 	<dependencies>
