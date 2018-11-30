@@ -3,6 +3,7 @@ package com.citylife.api.gateway;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.cloud.netflix.hystrix.stream.HystrixStreamAutoConfiguration;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -17,7 +18,7 @@ import brave.okhttp3.TracingInterceptor;
 import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
 
-@SpringBootApplication
+@SpringBootApplication(exclude= {HystrixStreamAutoConfiguration.class})
 @EnableZuulProxy
 public class ZuulApplication {
 
