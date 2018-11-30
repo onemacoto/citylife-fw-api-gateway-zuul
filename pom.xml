@@ -19,7 +19,7 @@
 	<properties>
 		<turbine-core.version>2.0.0-DP.2</turbine-core.version>
 		<logstash-logback-encoder.version>5.2</logstash-logback-encoder.version>
-		<fastjson.version>1.2.51</fastjson.version>
+		<fastjson.version>1.2.54</fastjson.version>
 		<brave-instrumentation-okhttp3.version>5.4.4</brave-instrumentation-okhttp3.version>
 	</properties>
 
