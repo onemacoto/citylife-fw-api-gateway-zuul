@@ -5,6 +5,7 @@
     <property name="LOG_NAME" value="gateway-logback.log" />
     <!-- 读取yml文件中spring.application.name节点定义的微服务名 并保存为本xml的一个变量，变量名为applicationName -->
     <springProperty scope="context" name="applicationName" source="spring.application.name" defaultValue="undefined_appName" />
+    <springProperty scope="context" name="applicationIp" source="spring.cloud.client.ip-address" defaultValue="undefined_appIp" />
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
@@ -23,7 +24,7 @@
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <includeContext>true</includeContext>
             <includeCallerData>true</includeCallerData>
-            <customFields>{"applicationName":"${applicationName}"}</customFields>
+            <customFields>{"applicationName":"${applicationName}","applicationIp":"${applicationIp}"}</customFields>
             <fieldNames class="net.logstash.logback.fieldnames.ShortenedFieldNames" />
         </encoder>
     </appender>
