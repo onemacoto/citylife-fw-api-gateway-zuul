@@ -12,6 +12,8 @@ server:
 spring:
   application:
     name: citylife-api-gatway-zuul
+  profiles: 
+    active: dev-windows    
   http:
     encoding:
       charset: UTF-8
