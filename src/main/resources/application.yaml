@@ -11,7 +11,7 @@ server:
     max-threads: 1024
 spring:
   application:
-    name: citylife-api-gatway-zuul
+    name: gateway-zuul
   profiles: 
     active: dev-windows    
   http:
