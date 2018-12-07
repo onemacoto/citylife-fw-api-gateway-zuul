@@ -1,3 +1,40 @@
 <configuration>
-    <include resource="com/citylife/common/logging/template/springboot-logstash-base.xml" />
+    <!-- 日志目录 -->
+    <property name="LOG_DIR" value="/opt/logs" />
+    <!-- 日志文件名 -->
+    <property name="LOG_NAME" value="gateway-logback.log" />
+    <!-- springProperty -->
+    <springProperty scope="context" name="applicationName" source="spring.application.name" defaultValue="undefined_appName" />
+    <springProperty scope="context" name="applicationIp" source="spring.cloud.client.ip-address" defaultValue="undefined_appIp" />
+
+    <!-- ConsoleAppender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- RollingFileAppender -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <immediateFlush>true</immediateFlush>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>info</level>
+        </filter>
+        <file>${LOG_DIR}/${LOG_NAME}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/${LOG_NAME}.%d{yyyy-MM-dd}</fileNamePattern>
+            <maxHistory>7</maxHistory>
+        </rollingPolicy>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <includeContext>true</includeContext>
+            <includeCallerData>true</includeCallerData>
+            <customFields>{"applicationName":"${applicationName}","applicationIp":"${applicationIp}"}</customFields>
+            <fieldNames class="net.logstash.logback.fieldnames.ShortenedFieldNames" />
+        </encoder>
+    </appender>
+
+    <root level="ERROR">
+        <!--<appender-ref ref="STDOUT" />-->
+        <appender-ref ref="FILE" />
+    </root>
 </configuration>

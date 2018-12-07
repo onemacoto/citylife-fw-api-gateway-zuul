@@ -1,7 +1,7 @@
 logging:
   config: classpath:logback.xml
 error:
-  path: /gateway/error
+  path: /v1/error
 server:
   port: 8040
   tomcat:
@@ -12,8 +12,6 @@ server:
 spring:
   application:
     name: gateway-zuul
-  profiles: 
-    active: dev-windows    
   http:
     encoding:
       charset: UTF-8
