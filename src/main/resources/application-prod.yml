@@ -1,0 +1,29 @@
+citylife:
+  zuul:
+    hystrixStream:
+      enabled: true
+
+spring:      
+  zipkin:
+    enabled: true
+    sender:
+      type: web
+    base-url: http://172.40.2.127:9411
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://172.40.2.115:8761/eureka,http://172.40.2.116:8761/eureka
+
+      
+# hystrix数据汇聚到kafka
+spring:         
+  cloud:
+    stream:
+      kafka:
+        binder:
+          # Kafka的服务端列表
+          brokers: 172.40.2.124:9092,172.40.2.125:9092
+          # Kafka服务端连接的ZooKeeper节点列表
+          zkNodes: 172.40.2.124:2181,172.40.2.125:2181
+      

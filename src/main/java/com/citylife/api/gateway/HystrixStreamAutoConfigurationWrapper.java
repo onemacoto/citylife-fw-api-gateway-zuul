@@ -3,6 +3,7 @@ package com.citylife.api.gateway;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.actuator.HasFeatures;
 import org.springframework.cloud.client.discovery.simple.SimpleDiscoveryProperties;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.MessageChannel;
 
 @Configuration
+@ConditionalOnProperty(prefix = "citylife.zuul.hystrixStream", value = "enabled", matchIfMissing = true)
 public class HystrixStreamAutoConfigurationWrapper extends HystrixStreamAutoConfiguration {
 
 	@Autowired

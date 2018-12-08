@@ -1,0 +1,17 @@
+citylife:
+  zuul:
+    hystrixStream:
+      enabled: false
+
+spring:      
+  zipkin:
+    enabled: false
+    sender:
+      type: web
+    base-url: http://172.40.2.127:9411
+
+eureka:
+  client:
+    serviceUrl:
+      #defaultZone: http://172.40.2.115:8761/eureka,http://172.40.2.116:8761/eureka
+      defaultZone: http://127.0.0.1:1001/eureka

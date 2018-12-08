@@ -1,0 +1,3 @@
+<configuration>
+   <include resource="com/citylife/common/logging/template/springboot-logstash-base.xml" />
+</configuration>

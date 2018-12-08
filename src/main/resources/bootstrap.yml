@@ -1,0 +1,14 @@
+spring: 
+  application:
+    name: gateway-zuul
+  profiles: 
+    active: windows,dev 
+server:
+  port: 8040
+  tomcat:
+    # Minimum number of worker threads.
+    min-spare-threads: 100
+    # Maximum number of worker threads.
+    max-threads: 1024
+logging:
+    config: classpath:citylife-logback.xml
