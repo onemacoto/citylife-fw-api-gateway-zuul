@@ -47,9 +47,9 @@ zuul:
   DebugFilter:
     pre:
       disable: true
-  FormBodyWrapperFilter:
-    pre:
-      disable: true
+  #FormBodyWrapperFilter:
+  #  pre:
+  #    disable: true
   SimpleHostRoutingFilter:
     route:
       disable: true
