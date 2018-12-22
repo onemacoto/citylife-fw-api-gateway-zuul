@@ -1,5 +1,5 @@
 error:
-  path: /v1/error
+  path: /gateway/error
 spring:
   http:
     encoding:
