@@ -1,22 +1,32 @@
 package com.citylife.api.gateway.provider;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.zuul.filters.route.FallbackProvider;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.alibaba.fastjson.JSON;
 import com.citylife.api.gateway.http.client.JsonClientHttpResponse;
-import com.citylife.api.gateway.http.client.bean.JsonResponseBean;
+import com.citylife.common.component.TraceHelper;
+import com.citylife.common.constants.SystemMessageConsts;
+import com.citylife.common.logging.AdminLogger;
+import com.citylife.common.message.MessageResolver;
+import com.citylife.common.model.ResultEntity;
 
 /**
  * Hystrix熔断错误处理器
  */
-@Component
 public class GatewayFallbackProvider implements FallbackProvider {
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-
+   @Autowired
+   private MessageResolver messageResolver;
+   
+   @Autowired
+   private TraceHelper traceHelper;
+  
+  
     @Override
     public String getRoute() {
         return "*";
@@ -24,11 +34,11 @@ public class GatewayFallbackProvider implements FallbackProvider {
 
     @Override
     public ClientHttpResponse fallbackResponse(String route, Throwable cause) {
-        if (logger.isErrorEnabled()) {
-            logger.error(route, cause);
-        }
-        String responseDesc = "服务[" + route + "]过载, 请稍后再试.";
-        String responseBody = JsonResponseBean.buildCcfResponseBeanJsonString(JsonResponseBean.GW_HYSTRIX_FALLBACK_CODE, responseDesc);
+        AdminLogger.error(String.format("熔断错误发生Route[%s]", route), cause);
+        ResultEntity<?> result = ResultEntity.failure(ResultEntity.SYSTEM_ERROR, messageResolver.error(SystemMessageConsts.SYSTEM_ERROR_FALLBACK));
+        HttpServletRequest httpRequest = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        result.setTraceId(traceHelper.getTraceId(httpRequest));
+        String responseBody = JSON.toJSONString(result);
         return new JsonClientHttpResponse(responseBody);
     }
 }
