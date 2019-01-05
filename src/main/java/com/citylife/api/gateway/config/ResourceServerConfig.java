@@ -17,7 +17,7 @@ import com.citylife.api.gateway.service.RibbonRemoteTokenServices;
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
-	
+
 	@Autowired
 	private ResourceServerProperties resourceServerProperties;
 
@@ -40,8 +40,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().requestMatchers().antMatchers("/**").and().authorizeRequests()
-				 .antMatchers("/fn-auth/oauth/token").permitAll()
-				.anyRequest().authenticated();
+				.antMatchers("/fn-auth/oauth/token").permitAll().anyRequest().authenticated();
 
 	}
 

@@ -22,4 +22,5 @@ security:
         clientSecret: password
       resource:
         tokenInfoUri: http://fn-auth/oauth/check_token
+        userInfoUri: http://fn-auth/user
         

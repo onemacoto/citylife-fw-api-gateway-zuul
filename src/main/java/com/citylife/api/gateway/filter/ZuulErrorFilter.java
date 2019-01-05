@@ -1,4 +1,4 @@
-package com.citylife.api.gateway.error;
+package com.citylife.api.gateway.filter;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,6 +8,7 @@ import com.citylife.common.logging.AdminLogger;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
+
 
 public class ZuulErrorFilter extends ZuulFilter {
 
