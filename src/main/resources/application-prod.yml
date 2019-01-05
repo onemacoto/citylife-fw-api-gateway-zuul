@@ -26,4 +26,12 @@ spring:
           brokers: 172.40.2.124:9092,172.40.2.125:9092
           # Kafka服务端连接的ZooKeeper节点列表
           zkNodes: 172.40.2.124:2181,172.40.2.125:2181
-      
+
+security:
+  oauth2:
+      client:
+        clientId: gateway 
+        clientSecret: password
+      resource:
+        userInfoUri: /fn-user
+        token-info-uri: /oauth/check_token
