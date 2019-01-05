@@ -21,7 +21,7 @@ import brave.okhttp3.TracingInterceptor;
 import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
 
-@SpringBootApplication(exclude = { HystrixStreamAutoConfiguration.class })
+@SpringBootApplication(exclude = {HystrixStreamAutoConfiguration.class})
 @EnableZuulProxy
 @AutoConfigureBefore(ErrorMvcAutoConfiguration.class)
 public class ZuulApplication {
@@ -37,8 +37,7 @@ public class ZuulApplication {
    */
   @Bean(name = "HystrixMetricsStreamServletBean")
   public ServletRegistrationBean<HystrixMetricsStreamServlet> servletTurbineRegistrationBean() {
-    ServletRegistrationBean<HystrixMetricsStreamServlet> registration = new ServletRegistrationBean<>(
-        new HystrixMetricsStreamServlet(), "/actuator/hystrix.stream");
+    ServletRegistrationBean<HystrixMetricsStreamServlet> registration = new ServletRegistrationBean<>(new HystrixMetricsStreamServlet(), "/actuator/hystrix.stream");
     registration.setName("HystrixMetricsStreamServlet");
     registration.setLoadOnStartup(1);
     return registration;
@@ -78,10 +77,8 @@ public class ZuulApplication {
    */
   @Bean
   public OkHttpClient.Builder okHttpClientBuilder(HttpTracing httpTracing) {
-    return new OkHttpClient.Builder()
-        .dispatcher(new Dispatcher(
-            httpTracing.tracing().currentTraceContext().executorService(new Dispatcher().executorService())))
-        .addNetworkInterceptor(TracingInterceptor.create(httpTracing));
+    return new OkHttpClient.Builder().dispatcher(new Dispatcher(httpTracing.tracing().currentTraceContext().executorService(new Dispatcher().executorService()))).addNetworkInterceptor(
+        TracingInterceptor.create(httpTracing));
   }
 
   // @Bean
