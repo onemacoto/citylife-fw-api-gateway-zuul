@@ -22,7 +22,7 @@ public class ModifyHeaderFilter extends ZuulFilter {
 		try {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			RequestContext ctx = RequestContext.getCurrentContext();
-			ctx.addZuulRequestHeader("User-Token", (String) Map.class.cast(auth.getPrincipal()).get("headerUser"));
+			ctx.addZuulRequestHeader("X-User-Token", (String) Map.class.cast(auth.getPrincipal()).get("xUserToken"));
 		} catch (Exception igore) {
 
 		}
