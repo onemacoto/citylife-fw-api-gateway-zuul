@@ -9,9 +9,11 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.web.client.RestTemplate;
 
+import com.citylife.api.gateway.entrypoint.AuthExceptionEntryPoint;
 import com.citylife.api.gateway.service.RibbonRemoteTokenServices;
 
 @Configuration
@@ -43,5 +45,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 				.antMatchers("/fn-auth/oauth/token").permitAll().anyRequest().authenticated();
 
 	}
+	
+	@Override
+	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+		resources.authenticationEntryPoint(new AuthExceptionEntryPoint());
+	}
+
 
 }
